@@ -1,0 +1,31 @@
+﻿@{
+}
+
+@model DBTestCreator_1.ViewModels.PatientAddressModel
+
+<p>@ViewBag.AddressResult</p>
+<h4>Patient Address :</h4>
+
+<form asp-controller="Registration" asp-action="PatientAddress">
+<div>
+    <input asp-for="Id" value="@ViewBag.Id" hidden="hidden"/>
+</div>
+<div>
+    <label asp-for="City"></label><br />
+    <input asp-for="City" />
+    <span asp-validation-for="City"></span>
+</div><br />
+<div>
+    <label asp-for="Street"></label><br />
+    <input asp-for="Street" />
+    <span asp-validation-for="Street"></span>
+</div><br />
+<div>
+    <label asp-for="HouseNo"></label><br />
+    <input asp-for="HouseNo" />
+    <span asp-validation-for="HouseNo"></span>
+</div><br />
+
+<input type="submit" value="Add Address" />
+    
+</form>

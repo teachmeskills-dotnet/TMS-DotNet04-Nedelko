@@ -1,0 +1,33 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h3 class="display-4">Polyclinic Registration</h3>
+    <div>
+        @{
+            if(User.IsInRole("Administrator")){
+                <a asp-controller="Doctor" asp-action="Show">Doctors </a>
+                <a asp-controller="Patient" asp-action="Show">Patients </a>
+                <a asp-controller="Registration" asp-action="UserRegistration">New User </a>
+            }
+            else if (User.IsInRole("Doctor"))
+            {
+                <a asp-controller="Doctor" asp-action="ShowMyVisits">My Visits </a>
+                <a asp-controller="Doctor" asp-action="ShowMyPatients">My Patients </a>
+                <a asp-controller="Patient" asp-action="Show">All Patients </a>
+                <a asp-controller="Visit" asp-action="CreateVisitDoctor"> New Visit</a>
+            }
+            else if (User.IsInRole("Patient"))
+            {
+                <a asp-controller="Patient" asp-action="ShowMyVisits"> My Visits</a>
+                <a asp-controller="Patient" asp-action="ShowMyPrescriptions">My Prescriptions </a>
+                <a asp-controller="Patient" asp-action="ShowMyDoctors">My Doctors </a>
+                <a asp-controller="Doctor" asp-action="Show">All Doctors</a>
+            }
+        }
+    </div><br />
+    <div>
+        <img src="~/Pictures/doctor-shortage.jpg" alt="Doctors" />
+    </div>
+</div>

@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using System.Linq
+@model IEnumerable<Doctor>
+
+<form asp-controller="Doctor" asp-action="Show">
+    @if (Model.Count() != 0)
+    {
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Doctors list :</th>
+                </tr>
+                <tr>
+                    <td colspan="1">ID</td>
+                    <td colspan="1">Name</td>
+                    <td colspan="1">Age</td>
+                    <td colspan="1">Department</td>
+                    <td colspan="1">Area</td>
+                    <td colspan="1">Hire Date</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var d in Model)
+                {
+                    <tr>
+                        <td>@d.Id.ToString().Substring(0, 5)    </td>
+                        <td>@d.FName @d.LName    </td>
+                        <td>@d.Age    </td>
+                        @if (d.DepartmentId != null)
+                        {
+                            foreach(var dep in ViewBag.Deps)
+                            {
+                                if(dep.Id == d.DepartmentId)
+                                {
+                                    <td>@dep.Name</td>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <td>Null</td>
+                        }
+                        @if (d.AreaId != null)
+                        {
+                            foreach(var ar in ViewBag.Areas)
+                            {
+                                if(ar.Id == d.AreaId)
+                                {
+                                    <td>@ar.Name</td>
+                                }
+                            }
+                        }
+                        else
+                        {
+                            <td>Null</td>
+                        }
+                        <td>@d.HiredDate.ToShortDateString()</td>
+                        @if(User.IsInRole("Administrator")){
+                        <td><button type="submit" name="action" value="edit" asp-action="Edit" asp-route-id="@d.Id" formmethod="get">Edit</button></td>
+                        <td><button type="submit" name="action" value="remove" asp-action="Remove" asp-route-id="@d.Id">Remove</button></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+                        else
+                        {
+        <h6>Doctor list is EMPTY.</h6>
+                        }
+
+</form>

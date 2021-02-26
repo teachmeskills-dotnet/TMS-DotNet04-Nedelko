@@ -1,0 +1,71 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model IEnumerable<Patient>
+
+<form asp-controller="Patient" asp-action="Show">
+    @{if(Model.Count() != 0){
+        <h6>Patient List :</h6>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Age</th>
+                    <th>Status</th>
+                    <th>Area</th>
+                    @if(User.IsInRole("Administrator"))
+                    {
+                    <th>Edit</th>
+                    <th>Remove</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var p in Model){
+                    <tr>
+                        <td>@p.Id.ToString().Substring(0, 5)    </td>
+                        <td>@p.FName    </td>
+                        <td>@p.LName    </td>
+                        <td>@p.Age    </td>
+                        @switch(p.Status){
+                            case DBTestCreator_1.Enums.PatientStatus.Adult:
+                            <td>Adult    </td>
+                            break;
+                            case DBTestCreator_1.Enums.PatientStatus.Child:
+                            <td>Child    </td>
+                            break;
+                            case DBTestCreator_1.Enums.PatientStatus.Pensioner:
+                            <td>Pensioner    </td>
+                            break;
+                            case DBTestCreator_1.Enums.PatientStatus.Teenager:
+                            <td>Teenager    </td>
+                            break;
+                            case DBTestCreator_1.Enums.PatientStatus.Unknown:
+                            <td>Unknown     </td>
+                            break;
+                        }
+                        @foreach(var a in ViewBag.Areas){
+                            if(a.Id == p.AreaId){
+                                <td>@a.Name --> @a.RoomNumber    </td>
+                            }
+                        }
+                        @if(User.IsInRole("Administrator")){
+                        <td><button asp-controller="Patient" asp-action="Edit" asp-route-id="@p.Id">Edit</button></td>
+                        <td><button asp-controller="Patient" asp-action="Remove" asp-route-id="@p.Id">Remove</button></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else{
+        <h6>Patient List is Empty.</h6>
+    }
+    }
+
+</form>

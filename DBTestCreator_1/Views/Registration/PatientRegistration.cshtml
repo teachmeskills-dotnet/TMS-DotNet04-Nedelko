@@ -1,0 +1,60 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model DBTestCreator_1.ViewModels.PatientModel
+
+<h6>Patient Registration Form :</h6>
+<form asp-controller="Registration" asp-action="PatientRegistration">
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Id">@ViewBag.Id</label><br />
+        <input asp-for="Id" placeholder="@ViewBag.Id" hidden="hidden" />
+    </div>
+    <div>
+        <label asp-for="FName"></label><br />
+        <input asp-for="FName" />
+        <span asp-validation-for="FName"></span>
+    </div>
+    <div>
+        <label asp-for="LName"></label><br />
+        <input asp-for="LName" />
+        <span asp-validation-for="LName"></span>
+    </div>
+    <div>
+        <label asp-for="Age"></label><br />
+        <input asp-for="Age" />
+        <span asp-validation-for="Age"></span>
+    </div>
+    <div>
+        <label asp-for="BDate"></label><br />
+        <input asp-for="BDate" />
+        <span asp-validation-for="BDate"></span>
+    </div>
+    <div>
+        <label asp-for="Status"></label><br />
+        <select asp-for="Status" id="PatientStatus">
+            <option value="1" selected="selected">Adult</option>
+            <option value="2">Teenager</option>
+            <option value="3">Child</option>
+            <option value="4">Pensioner</option>
+            <option value="5">Unknown</option>
+        </select>
+    </div>
+    <div>
+        <label asp-for="AreaId"></label><br />
+                <select asp-for="AreaId">
+                  @{ foreach (var a in ViewBag.Areas)
+                     {
+                         <option value="@a.Id">@a.Name</option>
+                     }
+
+                  }
+                </select>
+    </div>
+
+    <input type="submit" value="Register" />
+
+</form>
