@@ -39,6 +39,7 @@ namespace DBTestCreator_1.Controllers
                 }
             }
             ViewBag.PatFind = patients;
+            ViewBag.Doctor = User.Identity.Name;
             return View("/Views/Visit/CreateVisitDoctor.cshtml");
         }
 

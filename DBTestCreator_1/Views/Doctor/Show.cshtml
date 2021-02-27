@@ -9,11 +9,9 @@
 <form asp-controller="Doctor" asp-action="Show">
     @if (Model.Count() != 0)
     {
+        <h6>Doctor list :</h6>
         <table border="1">
             <thead>
-                <tr>
-                    <th>Doctors list :</th>
-                </tr>
                 <tr>
                     <td colspan="1">ID</td>
                     <td colspan="1">Name</td>
@@ -61,7 +59,7 @@
                         <td>@d.HiredDate.ToShortDateString()</td>
                         @if(User.IsInRole("Administrator")){
                         <td><button type="submit" name="action" value="edit" asp-action="Edit" asp-route-id="@d.Id" formmethod="get">Edit</button></td>
-                        <td><button type="submit" name="action" value="remove" asp-action="Remove" asp-route-id="@d.Id">Remove</button></td>
+                        <td><button type="submit" name="action" value="remove" asp-action="Remove" asp-route-id="@d.Id" formmethod="get">Remove</button></td>
                         }
                     </tr>
                 }
