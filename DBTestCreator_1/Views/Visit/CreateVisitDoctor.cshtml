@@ -55,6 +55,17 @@
     <div>
         <input hidden="hidden" asp-for="DoctorId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
     </div>
+    <div name="prescription">
+        <label>Add prescription :</label>
+        <label>
+            <input type="radio" name="addPrescription" value="Yes" />
+            YES
+        </label>
+        <label>
+            <input type="radio" name="addPrescription" value="No" checked="checked" />
+            NO
+        </label>
+    </div>
     <input type="submit" value="Create" />
 </form>
 
