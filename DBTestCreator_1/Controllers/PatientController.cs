@@ -1,5 +1,7 @@
 ﻿using DBTestCreator_1.Models;
+using DBTestCreator_1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,23 @@ namespace DBTestCreator_1.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<IActionResult> Detailes(Guid id)
+        {
+            var patient = await _myContext.Patients.FindAsync(id);
+            var patientModel = new PatientModel
+            {
+                FName = patient.FName,
+                LName = patient.LName,
+                Age = patient.Age,
+                BDate = patient.BDate,
+                EnumStatus = patient.Status,
+                AreaId = patient.AreaId,
+            };
+            ViewBag.Address = await _myContext.PatientAddresses.FindAsync(id);
+            ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+            return View(patientModel);
         }
 
         public IActionResult Show()

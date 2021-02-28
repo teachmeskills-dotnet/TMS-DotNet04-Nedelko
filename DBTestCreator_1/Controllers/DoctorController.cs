@@ -23,6 +23,39 @@ namespace DBTestCreator_1.Controllers
 
         }
 
+        public async Task<IActionResult> ShowMyPatients()
+        {
+            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myPatientsId = new HashSet<Guid>(_myContext.Visits.Where(v => v.DoctorId.ToString() == doctorId)
+                .Select(visit => visit.PatientId));
+            if (myPatientsId is null)
+            {
+                ViewBag.IsEmpty = "No Patients added yet.";
+                return View();
+            }
+            else
+            {
+                var myPatients = new List<PatientModel>();
+                foreach (var id in myPatientsId)
+                {
+                    var patientTemp = await _myContext.Patients.FindAsync(id);
+                    myPatients.Add(new PatientModel
+                    {
+                        Id = patientTemp.Id,
+                        FName = patientTemp.FName,
+                        LName = patientTemp.LName,
+                        Age = patientTemp.Age,
+                        BDate = patientTemp.BDate,
+                        EnumStatus = patientTemp.Status,
+                        AreaId = patientTemp.AreaId
+                    }
+                        );
+                }
+                ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+                return View(myPatients);
+            }
+        }
+
         public IActionResult ShowMyVisits()
         {
             var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);

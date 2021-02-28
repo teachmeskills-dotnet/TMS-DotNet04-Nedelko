@@ -27,8 +27,14 @@ namespace DBTestCreator_1.ViewModels
         [Display(Name ="Date of Birth")]
         public DateTime BDate { get; set; }
 
+
+        // Different statuses for Views
+
         [Display(Name ="Status")]
         public int Status { get; set; }
+        public PatientStatus? EnumStatus { get; set; }
+
+        //
 
         [Display(Name ="Area")]
         public int AreaId { get; set; }
@@ -53,5 +59,8 @@ namespace DBTestCreator_1.ViewModels
                     return PatientStatus.Unknown;
             }
         }
+
+
+
     }
 }

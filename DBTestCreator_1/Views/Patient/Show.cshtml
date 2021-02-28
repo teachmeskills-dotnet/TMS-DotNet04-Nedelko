@@ -58,6 +58,10 @@
                         <td><button asp-controller="Patient" asp-action="Edit" asp-route-id="@p.Id">Edit</button></td>
                         <td><button asp-controller="Patient" asp-action="Remove" asp-route-id="@p.Id">Remove</button></td>
                         }
+                        @if (User.IsInRole("Doctor"))
+                        {
+                            <td><button asp-controller="Patient" asp-action="Detailes" asp-route-id="@p.Id">Detailes</button></td>
+                        }
                     </tr>
                 }
             </tbody>
