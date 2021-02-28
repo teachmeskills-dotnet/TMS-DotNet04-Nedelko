@@ -1,0 +1,30 @@
+﻿@{
+}
+
+
+@model DBTestCreator_1.ViewModels.VisitModel
+
+<h6>Visit information</h6>
+<form asp-controller="Visit" asp-action="Info">
+    <div>
+        <label>Patient : </label>
+        <label>@ViewBag.Patient.FName @ViewBag.Patient.LName</label><br />
+    </div>
+    <div>
+        <label>Doctor : </label>
+        <label>@ViewBag.Doctor.FName @ViewBag.Doctor.LName</label><br />
+    </div>
+    <div>
+        <label asp-for="DateOfVisit"></label>
+        <label>@Model.DateOfVisit.ToShortDateString</label><br />
+    </div>
+    <div>
+        <label asp-for="Description"></label><br />
+        <textarea asp-for="Description" cols="50" rows="5" placeholder="@Model.Description" wrap="soft" disabled="disabled"></textarea><br />
+    </div>
+    <div>
+        <label asp-for="Diagnosis"></label><br />
+        <textarea asp-for="Diagnosis" rows="5" cols="50" placeholder="@Model.Diagnosis" wrap="soft" disabled="disabled"></textarea><br />
+    </div>
+    <button asp-controller="Doctor" asp-action="ShowMyVisits">Return</button>
+</form>

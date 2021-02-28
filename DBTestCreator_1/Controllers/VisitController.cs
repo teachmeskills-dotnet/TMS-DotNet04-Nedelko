@@ -17,6 +17,20 @@ namespace DBTestCreator_1.Controllers
             _myContext = myContext;
         }
 
+        public async Task<IActionResult> Info(Guid id)
+        {
+            var visit = await _myContext.Visits.FindAsync(id);
+            VisitModel model = new VisitModel
+            {
+                Description = visit.Description,
+                DateOfVisit = visit.DateOfVisit,
+                Diagnosis = visit.Diagnosis,
+            };
+            ViewBag.Patient = await _myContext.Patients.FindAsync(visit.PatientId);
+            ViewBag.Doctor = await _myContext.Doctors.FindAsync(visit.DoctorId);
+            return View(model);
+        }
+
         [HttpGet]
         public IActionResult CreateVisitDoctor()
         {
@@ -43,7 +57,7 @@ namespace DBTestCreator_1.Controllers
                     await _myContext.SaveChangesAsync();
                 }
             }
-            return View();
+            return View("~/Views/Home/Index.cshtml");
         }
     }
 }

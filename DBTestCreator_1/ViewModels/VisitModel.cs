@@ -8,6 +8,7 @@ namespace DBTestCreator_1.ViewModels
 {
     public class VisitModel
     {
+        public Guid? Id { get; set; }
         [Required]
         [Display(Name = "Description")]
         public string Description { get; set; }

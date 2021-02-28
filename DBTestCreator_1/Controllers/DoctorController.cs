@@ -2,9 +2,11 @@
 using DBTestCreator_1.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DBTestCreator_1.Controllers
@@ -21,9 +23,19 @@ namespace DBTestCreator_1.Controllers
 
         }
 
-        public IActionResult MyVisits()
+        public IActionResult ShowMyVisits()
         {
-            return View();
+            var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var myVisits = _myContext.Visits.Where(v => v.DoctorId.ToString() == doctorId).Select(visit => new VisitModel
+            {
+                Id = visit.Id,
+                DateOfVisit = visit.DateOfVisit,
+                Diagnosis = visit.Diagnosis,
+                PatientId = visit.PatientId,
+                Description = visit.Description,
+            })
+                .AsNoTracking().ToList();
+            return View(myVisits);
         }
         [HttpGet]
         public IActionResult Show()
