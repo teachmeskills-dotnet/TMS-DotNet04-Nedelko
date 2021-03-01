@@ -93,6 +93,8 @@ namespace DBTestCreator_1.Controllers
                     VisitId = model.VisitId,
                 };
             }
+            var visit = _myContext.Visits.FindAsync(model.VisitId);
+            ViewBag.Visit = visit;
             return View();
         }
     }
