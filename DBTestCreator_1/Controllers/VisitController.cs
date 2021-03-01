@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace DBTestCreator_1.Controllers
@@ -66,6 +67,31 @@ namespace DBTestCreator_1.Controllers
                 }
             }
             return View("~/Views/Home/Index.cshtml");
+        }
+
+        [HttpGet]
+        public IActionResult AddPrescription()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddPrescription(Prescription model)
+        {
+            if (ModelState.IsValid)
+            {
+                Prescription prescription = new Prescription
+                {
+                    Id = new Guid(),
+                    Cure = model.Cure,
+                    DateOfPrescription = model.DateOfPrescription,
+                    Comments = model.Comments,
+                    ValidTill = model.ValidTill,
+                    DoctorId = ,
+                };
+            }
+            
+            return View();
         }
     }
 }

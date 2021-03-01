@@ -1,7 +1,36 @@
 ﻿@{
 }
 
-@model DBTestCreator_1.Models.Visit
+@model DBTestCreator_1.Models.Prescription
 
+<h6>Add Prescription to Visit</h6>
+<form asp-controller="Visit" asp-action="AddPrescription">
+    <div>
+        <label asp-for="Cure"></label>
+        <input asp-for="Cure" type="text" name="cureName" />
+        <span asp-validation-for="Cure"></span>
+    </div>
+    <div>
+        <label asp-for="DateOfPrescription"></label>
+        <input asp-for="DateOfPrescription" type="date" placeholder="@DateTime.Now.ToShortDateString()" />
+        <span asp-validation-for="DateOfPrescription"></span>
+    </div>
+    <div>
+        <label asp-for="Comments"></label>
+        <textarea cols="50" rows="5" wrap="soft" asp-for="Comments"></textarea>
+        <span asp-validation-for="Comments"></span>
+    </div>
+    <div>
+        <label asp-for="ValidTill"></label>
+        <input asp-for="ValidTill" type="date" />
+        <span asp-validation-for="ValidTill"></span>
+    </div>
+    <div>
+        <input asp-for="DoctorId" value="@Model.DoctorId" hidden="hidden" />
+        <input asp-for="PatientId" value="@Model.PatientId" hidden="hidden" />
+        <input asp-for="VisitId" value="@Model.Id" hidden="hidden" />
+    </div>
 
+    <input type="submit" value="Submit" />
+</form>
 
