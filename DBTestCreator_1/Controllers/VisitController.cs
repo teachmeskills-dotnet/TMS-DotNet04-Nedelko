@@ -38,7 +38,7 @@ namespace DBTestCreator_1.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateVisitDoctor(VisitModel model, Guid patienSelect)
+        public async Task<IActionResult> CreateVisitDoctor(VisitModel model, Guid patienSelect, string addPrescription)
         {
             if (ModelState.IsValid)
             {
@@ -54,7 +54,15 @@ namespace DBTestCreator_1.Controllers
                 var addVisit = await _myContext.Visits.AddAsync(visit);
                 if (addVisit.State == Microsoft.EntityFrameworkCore.EntityState.Added)
                 {
-                    await _myContext.SaveChangesAsync();
+                    if(addPrescription == "YES")
+                    {
+                        return View("~/Views/Visit/AddPrescription.cshtml", visit);
+                    }
+                    else
+                    {
+                        await _myContext.SaveChangesAsync();
+                        return RedirectToAction("ShowMyVisits", "Doctor");
+                    } 
                 }
             }
             return View("~/Views/Home/Index.cshtml");

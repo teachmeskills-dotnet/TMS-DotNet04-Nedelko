@@ -18,10 +18,6 @@ namespace DBTestCreator_1.Controllers
             _myContext = myContext;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public async Task<IActionResult> Detailes(Guid id)
         {
@@ -40,10 +36,10 @@ namespace DBTestCreator_1.Controllers
             return View(patientModel);
         }
 
-        public IActionResult Show()
+        public async Task<IActionResult> Show()
         {
-            ViewBag.Areas = _myContext.Areas.ToList();
-            return View(_myContext.Patients.ToList());
+            ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+            return View(await _myContext.Patients.AsNoTracking().ToListAsync());
         }
 
         public IActionResult Find(string patientToFind)
