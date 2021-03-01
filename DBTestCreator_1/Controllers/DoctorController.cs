@@ -56,7 +56,7 @@ namespace DBTestCreator_1.Controllers
             }
         }
 
-        public IActionResult ShowMyVisits()
+        public async Task<IActionResult> ShowMyVisits()
         {
             var doctorId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var myVisits = _myContext.Visits.Where(v => v.DoctorId.ToString() == doctorId).Select(visit => new VisitModel
@@ -65,9 +65,11 @@ namespace DBTestCreator_1.Controllers
                 DateOfVisit = visit.DateOfVisit,
                 Diagnosis = visit.Diagnosis,
                 PatientId = visit.PatientId,
+                DoctorId = visit.DoctorId,
                 Description = visit.Description,
             })
                 .AsNoTracking().ToList();
+            ViewBag.Patients = await _myContext.Patients.AsNoTracking().ToListAsync();
             return View(myVisits);
         }
         [HttpGet]

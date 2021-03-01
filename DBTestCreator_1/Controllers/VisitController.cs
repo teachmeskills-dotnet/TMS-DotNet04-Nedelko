@@ -55,42 +55,44 @@ namespace DBTestCreator_1.Controllers
                 var addVisit = await _myContext.Visits.AddAsync(visit);
                 if (addVisit.State == Microsoft.EntityFrameworkCore.EntityState.Added)
                 {
-                    if(addPrescription == "YES")
+                    await _myContext.SaveChangesAsync();
+                    if(addPrescription == "yes")
                     {
-                        return View("~/Views/Visit/AddPrescription.cshtml", visit);
+                        return RedirectToAction("AddPrescription", visit);
                     }
                     else
                     {
-                        await _myContext.SaveChangesAsync();
                         return RedirectToAction("ShowMyVisits", "Doctor");
-                    } 
+                    }
                 }
             }
             return View("~/Views/Home/Index.cshtml");
         }
 
         [HttpGet]
-        public IActionResult AddPrescription()
+        public IActionResult AddPrescription(Visit visit)
         {
+            ViewBag.Visit = visit;
             return View();
         }
 
+
         [HttpPost]
-        public IActionResult AddPrescription(Prescription model)
+        public IActionResult AddPrescription(PrescriptionModel model)
         {
             if (ModelState.IsValid)
             {
                 Prescription prescription = new Prescription
                 {
-                    Id = new Guid(),
+                    Id = Guid.NewGuid(),
                     Cure = model.Cure,
                     DateOfPrescription = model.DateOfPrescription,
                     Comments = model.Comments,
                     ValidTill = model.ValidTill,
-                    DoctorId = ,
+                    DoctorId = model.DoctorId,
+                    VisitId = model.VisitId,
                 };
             }
-            
             return View();
         }
     }

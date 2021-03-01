@@ -9,9 +9,9 @@
     <table border="1">
         <thead>
             <tr>
-                <td>Name</td>
+                <td>Patient</td>
                 <td>Date</td>
-                <td>Info</td>
+                <td>Detailes</td>
             </tr>
         </thead>
         <tbody>
@@ -19,8 +19,14 @@
             @{
                 @foreach (var v in Model)
                 {
-            <tr>
-                <td>@v.PatientId.ToString().Substring(0, 5)</td>
+            <tr>@foreach(var p in ViewBag.Patients)
+            {
+                if(v.PatientId == p.Id)
+                {
+                    <td>@p.FName @p.LName</td>
+                    break;
+                }
+            }
                 <td>@v.DateOfVisit.ToShortDateString()</td>
                 <td><a asp-controller="Visit" asp-action="Info" asp-route-id="@v.Id">Info...</a></td>
             </tr>

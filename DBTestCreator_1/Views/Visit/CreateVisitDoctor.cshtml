@@ -39,7 +39,7 @@
     }
     <div>
         <label asp-for="DateOfVisit"></label><br />
-        <input asp-for="DateOfVisit" placeholder="@DateTime.Now" />
+        <input asp-for="DateOfVisit" placeholder="@DateTime.Now.ToShortDateString()" />
         <span asp-validation-for="DateOfVisit"></span>
     </div>
     <div>
@@ -55,17 +55,19 @@
     <div>
         <input hidden="hidden" asp-for="DoctorId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
     </div>
-    <div name="prescription">
-        <label>Add prescription :</label>
-        <label>
-            <input type="radio" name="addPrescription" value="Yes" />
-            YES
-        </label>
-        <label>
-            <input type="radio" name="addPrescription" value="No" checked="checked" />
-            NO
-        </label>
-    </div>
+
+
+    <label>Add Prescription : </label>
+    <label>
+        <input name="addPrescription" type="radio" value="yes" />
+        YES
+    </label>
+    <label>
+        <input name="addPrescription" type="radio" value="no" checked="checked"/>
+        NO
+    </label><br />
+
+
     <input type="submit" value="Create" />
 </form>
 
