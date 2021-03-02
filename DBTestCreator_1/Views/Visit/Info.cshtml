@@ -26,5 +26,24 @@
         <label asp-for="Diagnosis"></label><br />
         <textarea asp-for="Diagnosis" rows="5" cols="50" placeholder="@Model.Diagnosis" wrap="soft" disabled="disabled"></textarea><br />
     </div>
+    <div>
+        @{
+            if(ViewBag.Prescriptions.Count != 0)
+            {
+                <label>Prescriptions :</label><br />
+                @foreach(var p in ViewBag.Prescriptions)
+                {
+                    <a asp-controller="Visit" asp-action="PrescriptionInfo" asp-route-id="@p.Id">Prescription</a>
+                    <label>@p.Cure   </label><br />
+                }
+            }
+            else
+            {
+                <label>Prescriptions : NO</label>
+            }
+
+
+        }
+    </div>
     <button asp-controller="Doctor" asp-action="ShowMyVisits">Return</button>
 </form>

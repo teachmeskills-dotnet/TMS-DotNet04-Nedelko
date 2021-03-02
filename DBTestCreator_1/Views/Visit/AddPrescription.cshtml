@@ -31,6 +31,6 @@
     <input asp-for="VisitId" value="@ViewBag.Visit.Id" hidden="hidden" />
     <input asp-for="PatientId" value="@ViewBag.Visit.PatientId" hidden="hidden" />
 
-    <input type="submit" value="Submit"/>
+    <label><button type="submit" value="Save" name="chooseAction">Save</button> OR <button name="chooseAction" value="Add" type="submit">Add New</button></label>
 </form>
 

@@ -1,6 +1,7 @@
 ﻿using DBTestCreator_1.Models;
 using DBTestCreator_1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,8 @@ namespace DBTestCreator_1.Controllers
             };
             ViewBag.Patient = await _myContext.Patients.FindAsync(visit.PatientId);
             ViewBag.Doctor = await _myContext.Doctors.FindAsync(visit.DoctorId);
+            ViewBag.Prescriptions = await _myContext.Prescriptions.AsNoTracking()
+                .Where(presc => presc.VisitId == id).ToListAsync();
             return View(model);
         }
 
@@ -78,7 +81,7 @@ namespace DBTestCreator_1.Controllers
 
 
         [HttpPost]
-        public IActionResult AddPrescription(PrescriptionModel model)
+        public async Task<IActionResult> AddPrescription(PrescriptionModel model, string chooseAction)
         {
             if (ModelState.IsValid)
             {
@@ -91,11 +94,60 @@ namespace DBTestCreator_1.Controllers
                     ValidTill = model.ValidTill,
                     DoctorId = model.DoctorId,
                     VisitId = model.VisitId,
+                    PatientId = model.PatientId,
                 };
+                var addPrescription = await _myContext.Prescriptions.AddAsync(prescription);
+                if(addPrescription.State == Microsoft.EntityFrameworkCore.EntityState.Added)
+                {
+                    await _myContext.SaveChangesAsync();
+                    if(chooseAction == "Save")
+                    {
+                        return RedirectToAction("ShowMyVisits", "Doctor");
+                    }
+                    else
+                    {
+                        var visit = await _myContext.Visits.FindAsync(model.VisitId);
+                        return RedirectToAction("AddPrescription", "Visit", visit);
+                    }
+                }
+                else
+                {
+                    return Content("Internal error! Prescription Entity is NOT added.");
+                }
             }
-            var visit = _myContext.Visits.FindAsync(model.VisitId);
-            ViewBag.Visit = visit;
-            return View();
+            else
+            {
+                var visit = await _myContext.Visits.FindAsync(model.VisitId);
+                ViewBag.Visit = visit;
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> PrescriptionInfo(Guid id)
+        {
+            var model = await _myContext.Prescriptions.FindAsync(id);
+            if(model is not null)
+            {
+                PrescriptionModel prescription = new PrescriptionModel
+                {
+                    Id = model.Id,
+                    Cure = model.Cure,
+                    DateOfPrescription = model.DateOfPrescription,
+                    Comments = model.Comments,
+                    ValidTill = model.ValidTill,
+                    PatientId = model.PatientId,
+                    DoctorId = model.DoctorId,
+                    VisitId = model.VisitId,
+                };
+                ViewBag.Patient = await _myContext.Patients.FindAsync(prescription.PatientId);
+                ViewBag.Doctor = await _myContext.Doctors.FindAsync(prescription.DoctorId);
+                return View(prescription);
+            }
+            else
+            {
+                ViewBag.Message = "Error! NO Prescription found.";
+                return View();
+            }
         }
     }
 }

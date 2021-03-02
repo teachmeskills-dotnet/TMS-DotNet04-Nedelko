@@ -32,6 +32,6 @@ namespace DBTestCreator_1.ViewModels
         // Doctor FK
         public Guid DoctorId { get; set; }
         // Visit Id
-        public Guid VisitId { get; set; }
+        public Guid? VisitId { get; set; }
     }
 }
