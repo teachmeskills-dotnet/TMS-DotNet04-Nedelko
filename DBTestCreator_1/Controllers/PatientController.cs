@@ -1,5 +1,6 @@
 ﻿using DBTestCreator_1.Models;
 using DBTestCreator_1.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,10 +13,12 @@ namespace DBTestCreator_1.Controllers
     public class PatientController : Controller
     {
         private readonly MyContext _myContext;
+        private readonly UserManager<User> _userManager;
 
-        public PatientController(MyContext myContext)
+        public PatientController(MyContext myContext, UserManager<User> userManager)
         {
             _myContext = myContext;
+            _userManager = userManager;
         }
 
 
@@ -33,6 +36,7 @@ namespace DBTestCreator_1.Controllers
             };
             ViewBag.Address = await _myContext.PatientAddresses.FindAsync(id);
             ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+            ViewBag.Email = (await _userManager.FindByIdAsync(id.ToString())).Email;
             return View(patientModel);
         }
 
@@ -56,6 +60,29 @@ namespace DBTestCreator_1.Controllers
             ViewBag.PatFind = patients;
             ViewBag.Doctor = User.Identity.Name;
             return View("/Views/Visit/CreateVisitDoctor.cshtml");
+        }
+
+        public async Task<IActionResult> ShowMyVisits(Guid id)
+        {
+            var result = await _myContext.Visits.AsNoTracking()
+                .Where(v => v.PatientId == id).ToListAsync();
+            List<Doctor> myDoctors = new List<Doctor>();
+            if(result.Count() != 0)
+            {
+                var patient = await _myContext.Patients.FindAsync(id);
+                ViewBag.PatientName = String.Concat(patient.FName, "", patient.LName);
+                foreach(var v in result)
+                {
+                    myDoctors.Add(await _myContext.Doctors.FindAsync(v.DoctorId));
+                }
+                ViewBag.Doctors = myDoctors;
+                return View(result);
+            }
+            else
+            {
+                ViewBag.Message = "NO Visits were found.";
+                return View();
+            }
         }
 
     }

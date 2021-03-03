@@ -1,4 +1,7 @@
-﻿@{
+﻿
+@using System.Security.Claims
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -20,7 +23,7 @@
             }
             else if (User.IsInRole("Patient"))
             {
-                <a asp-controller="Patient" asp-action="ShowMyVisits"> My Visits</a>
+                <a asp-controller="Patient" asp-action="ShowMyVisits" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)"> My Visits</a>
                 <a asp-controller="Patient" asp-action="ShowMyPrescriptions">My Prescriptions </a>
                 <a asp-controller="Patient" asp-action="ShowMyDoctors">My Doctors </a>
                 <a asp-controller="Doctor" asp-action="Show">All Doctors</a>
