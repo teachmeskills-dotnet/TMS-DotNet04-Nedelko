@@ -27,6 +27,7 @@ namespace DBTestCreator_1.Controllers
                 Description = visit.Description,
                 DateOfVisit = visit.DateOfVisit,
                 Diagnosis = visit.Diagnosis,
+                PatientId = visit.PatientId,
             };
             ViewBag.Patient = await _myContext.Patients.FindAsync(visit.PatientId);
             ViewBag.Doctor = await _myContext.Doctors.FindAsync(visit.DoctorId);

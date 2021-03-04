@@ -70,7 +70,7 @@ namespace DBTestCreator_1.Controllers
             if(result.Count() != 0)
             {
                 var patient = await _myContext.Patients.FindAsync(id);
-                ViewBag.PatientName = String.Concat(patient.FName, "", patient.LName);
+                ViewBag.PatientName = string.Concat(patient.FName, " ", patient.LName);
                 foreach(var v in result)
                 {
                     myDoctors.Add(await _myContext.Doctors.FindAsync(v.DoctorId));
@@ -81,6 +81,55 @@ namespace DBTestCreator_1.Controllers
             else
             {
                 ViewBag.Message = "NO Visits were found.";
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> ShowMyPrescriptions(Guid id)
+        {
+            var myPrescriptions = await _myContext.Prescriptions.AsNoTracking()
+                .Where(pr => pr.PatientId == id).ToListAsync();
+            if(myPrescriptions.Count() != 0)
+            {
+                ViewBag.Doctors = from pr in myPrescriptions
+                                  from doctor in _myContext.Doctors
+                                  where pr.DoctorId == doctor.Id
+                                  select doctor;
+                var patient = await _myContext.Patients.FindAsync(id);
+                ViewBag.Patient = string.Concat(patient.FName, " ", patient.LName);
+                return View(myPrescriptions);
+            }
+            else
+            {
+                var patient = await _myContext.Patients.FindAsync(id);
+                ViewBag.Patient = string.Concat(patient.FName, " ", patient.LName);
+                ViewBag.Message = "NO Prescriptions found.";
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> ShowMyDoctors(Guid id)
+        {
+            var allVisits = await _myContext.Visits.AsNoTracking()
+                .Where(v => v.PatientId == id).ToListAsync();
+            if(allVisits.Count() != 0)
+            {
+                var patient = await _myContext.Patients.FindAsync(id);
+                ViewBag.Patient = string.Concat(patient.FName, " ", patient.LName);
+
+                var myDoctorsId = (from d in allVisits select d.DoctorId).ToHashSet();
+                List<Doctor> myDoctors = new List<Doctor>();
+                foreach(var docId in myDoctorsId)
+                {
+                    myDoctors.Add(await _myContext.Doctors.FindAsync(docId));
+                }
+                return View(myDoctors);
+            }
+            else
+            {
+                var patient = await _myContext.Patients.FindAsync(id);
+                ViewBag.Patient = string.Concat(patient.FName, " ", patient.LName);
+                ViewBag.Message = "NO Doctors found.";
                 return View();
             }
         }

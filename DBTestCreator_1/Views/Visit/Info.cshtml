@@ -28,10 +28,10 @@
     </div>
     <div>
         @{
-            if(ViewBag.Prescriptions.Count != 0)
+            if (ViewBag.Prescriptions.Count != 0)
             {
                 <label>Prescriptions :</label><br />
-                @foreach(var p in ViewBag.Prescriptions)
+                @foreach (var p in ViewBag.Prescriptions)
                 {
                     <a asp-controller="Visit" asp-action="PrescriptionInfo" asp-route-id="@p.Id">Prescription</a>
                     <label>@p.Cure   </label><br />
@@ -45,5 +45,13 @@
 
         }
     </div>
-    <button asp-controller="Doctor" asp-action="ShowMyVisits">Return</button>
+    @if (User.IsInRole("Doctor"))
+    {
+        <button asp-controller="Doctor" asp-action="ShowMyVisits">Return</button>
+    }
+    else if (User.IsInRole("Patient"))
+    {
+        <button asp-controller="Patient" asp-action="ShowMyVisits" asp-route-id="@Model.PatientId">Return</button>
+    }
+
 </form>
