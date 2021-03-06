@@ -185,5 +185,27 @@ namespace DBTestCreator_1.Controllers
             }
             return View("RemoveDoctorResult");
         }
+
+        public async Task<IActionResult> Info(Guid id)
+        {
+            var doctor = await _myContext.Doctors.FindAsync(id);
+            if(doctor is not null)
+            {
+                RegDoctorModel model = new RegDoctorModel
+                {
+                    Id = doctor.Id,
+                    FName = doctor.FName,
+                    LName = doctor.LName,
+                    Position = RegDoctorModel.GetPosition(doctor.Code),
+                    Department = doctor.DepartmentId,
+                    Area = doctor.AreaId,
+                };
+                ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+                ViewBag.Deps = await _myContext.Departments.AsNoTracking().ToListAsync();
+                return View(model);
+            }
+            ViewBag.Message = "No Doctor found.";
+            return View();
+        }
     }
 }

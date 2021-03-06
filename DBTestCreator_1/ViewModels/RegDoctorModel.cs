@@ -41,5 +41,27 @@ namespace DBTestCreator_1.ViewModels
         [Display(Name = "Area")]
         public int? Area { get; set; }
 
+        public Positions? Position { get; set; }
+
+
+        public static Positions GetPosition(int id)
+        {
+            if(id == 1)
+            {
+                return Positions.Doctor;
+            }
+            else if(id == 2)
+            {
+                return Positions.Assistent;
+            }
+            else if(id == 3)
+            {
+                return Positions.Common;
+            }
+            else
+            {
+                return Positions.Administartive;
+            }
+        }
     }
 }

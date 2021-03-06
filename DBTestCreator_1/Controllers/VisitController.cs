@@ -36,6 +36,38 @@ namespace DBTestCreator_1.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> CreateReservationPatient(ReservationModel reservation)
+        {
+            if (ModelState.IsValid)
+            {
+                Visit visit = new Visit
+                {
+                    Id = Guid.NewGuid(),
+                    Description = "None",
+                    DateOfVisit = reservation.DateReservasion,
+                    Diagnosis = "None",
+                    PatientId = reservation.PatientId,
+                    DoctorId = reservation.DoctorId,
+                };
+                await _myContext.Visits.AddAsync(visit);
+                await _myContext.SaveChangesAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        public async Task<IActionResult> CreateReservationPatientForm(Guid docItem)
+        {
+            var doctor = await _myContext.Doctors.FindAsync(docItem);
+            var model = new RegDoctorModel
+            {
+                Id = doctor.Id,
+                FName = doctor.FName,
+                LName = doctor.LName,
+            };
+            ViewBag.Doctor = model;
+            return View("~/Views/Visit/CreateReservationPatient.cshtml");
+        }
+
         [HttpGet]
         public IActionResult CreateVisitDoctor()
         {

@@ -44,12 +44,12 @@
     </div>
     <div>
         <label asp-for="Description"></label><br />
-        <textarea asp-for="Description" cols="50" rows="5" placeholder="Enter description..." wrap="soft"></textarea>
+        <textarea asp-for="Description" cols="50" rows="5" placeholder="Enter description..." wrap="soft" required></textarea>
         <span asp-validation-for="Description"></span>
     </div>
     <div>
         <label asp-for="Diagnosis"></label><br />
-        <textarea asp-for="Diagnosis" rows="5" cols="50" placeholder="Enter diagnosis..." wrap="soft"></textarea>
+        <textarea asp-for="Diagnosis" rows="5" cols="50" placeholder="Enter diagnosis..." wrap="soft" required></textarea>
         <span asp-validation-for="Diagnosis"></span>
     </div>
     <div>

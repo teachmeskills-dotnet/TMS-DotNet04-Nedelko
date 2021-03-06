@@ -1,0 +1,27 @@
+﻿@{
+}
+
+@model DBTestCreator_1.ViewModels.ReservationModel
+@using System.Security.Claims
+
+
+<form asp-controller="Visit" asp-action="CreateReservationPatient">
+    <div asp-validation-summary="ModelOnly"></div>
+    <h6>Create Visit to Doctor : @ViewBag.Doctor.FName @ViewBag.Doctor.LName </h6>
+    <div>
+        <label asp-for="DateReservasion"></label>
+        <input asp-for="DateReservasion" required />
+        <span asp-validation-for="DateReservasion"></span>
+    </div><br />
+    <div>
+        <textarea cols="50" rows="5" wrap="soft" asp-for="Description"></textarea>
+        <span asp-validation-for="Description"></span>
+    </div><br />
+    <div>
+        <input asp-for="PatientId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" hidden="hidden" />
+    </div>
+    <div>
+        <input asp-for="DoctorId" value="@ViewBag.Doctor.Id" hidden="hidden" />
+    </div>
+    <input type="submit" value="Create"/>
+</form>
