@@ -26,6 +26,7 @@
                 <a asp-controller="Patient" asp-action="ShowMyVisits" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)"> My Visits</a>
                 <a asp-controller="Patient" asp-action="ShowMyPrescriptions" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">My Prescriptions </a>
                 <a asp-controller="Patient" asp-action="ShowMyDoctors" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">My Doctors </a>
+                <a asp-controller="Visit" asp-action="ShowMyReservations" asp-route-id="@User.FindFirstValue(ClaimTypes.NameIdentifier)">My Reservations</a>
                 <a asp-controller="Doctor" asp-action="Show">All Doctors</a>
             }
         }
