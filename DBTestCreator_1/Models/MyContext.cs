@@ -18,6 +18,7 @@ namespace DBTestCreator_1.Models
         public DbSet<PatientAddress> PatientAddresses { get; set; }
         public DbSet<Prescription> Prescriptions { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<CalendarEvent> Events { get; set; }
 
         public MyContext(DbContextOptions<MyContext> options) : base(options)
         {

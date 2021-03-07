@@ -30,6 +30,11 @@ namespace DBTestCreator_1.Controllers
             return View();
         }
 
+        public IActionResult Calendar()
+        {
+            return View("~/Views/Event/Index.cshtml");
+        }
+
         public IActionResult About()
         {
             return View();
