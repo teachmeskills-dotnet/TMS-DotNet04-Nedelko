@@ -61,6 +61,10 @@
                         <td><button type="submit" name="action" value="edit" asp-action="Edit" asp-route-id="@d.Id" formmethod="get">Edit</button></td>
                         <td><button type="submit" name="action" value="remove" asp-action="Remove" asp-route-id="@d.Id" formmethod="get">Remove</button></td>
                         }
+                        else if (User.IsInRole("Patient"))
+                    {
+                        <td><button asp-controller="Calendar" asp-action="Show" asp-route-id="@d.Id">Calendar</button></td>
+                    }
                     </tr>
                 }
             </tbody>

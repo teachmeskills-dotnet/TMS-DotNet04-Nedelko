@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,13 +17,16 @@ namespace DBTestCreator_1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly MyContext _myContext;
+
         //private readonly RoleManager<IdentityRole> _roleManager;
 
-        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager)
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager, SignInManager<User> signInManager, MyContext myContext)
         {
             _logger = logger;
             _userManager = userManager;
             _signInManager = signInManager;
+            _myContext = myContext;
         }
 
         public IActionResult Contacts()
@@ -30,8 +34,9 @@ namespace DBTestCreator_1.Controllers
             return View();
         }
 
-        public IActionResult Calendar()
+        public async Task<IActionResult> Calendar()
         {
+            ViewBag.Doctors = await _myContext.Doctors.AsNoTracking().ToListAsync();
             return View("~/Views/Event/Index.cshtml");
         }
 

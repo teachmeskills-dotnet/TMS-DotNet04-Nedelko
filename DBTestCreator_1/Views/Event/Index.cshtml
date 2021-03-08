@@ -92,7 +92,7 @@
             data: {
                 start: args.start,
                 end: args.end,
-                text: name
+                text: name,
             },
             success: function (ajax) {
                 var data = ajax.data;
@@ -100,7 +100,7 @@
                     start: args.start,
                     end: args.end,
                     id: data.id,
-                    text: name
+                    text: name,
                 }));
                 console.log("Created.");
             }

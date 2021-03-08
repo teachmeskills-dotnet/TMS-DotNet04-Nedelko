@@ -24,10 +24,27 @@ namespace DBTestCreator_1.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CalendarEvent>>> GetEvents([FromQuery] DateTime start, [FromQuery] DateTime end)
         {
-            return await _myContext.Events
-                .Where(e => !((e.End <= start) || (e.Start >= end)))
-                .Where(e => e.PatientId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
-                .ToListAsync();
+            if (User.IsInRole("Patient"))
+            {
+                return await _myContext.Events
+                                .Where(e => !((e.End <= start) || (e.Start >= end)))
+                                .Where(e => e.PatientId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                //.Where(e => e.DoctorId == id)
+                                .ToListAsync();
+            }
+            else if (User.IsInRole("Doctor"))
+            {
+                return await _myContext.Events
+                                .Where(e => !((e.End <= start) || (e.Start >= end)))
+                                .Where(e => e.DoctorId == Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                                .ToListAsync();
+            }
+            else
+            {
+                return await _myContext.Events
+                                .Where(e => !((e.End <= start) || (e.Start >= end)))
+                                .ToListAsync();
+            }
         }
 
         // GET: api/CalendarEvents/5
