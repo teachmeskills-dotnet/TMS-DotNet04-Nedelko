@@ -18,6 +18,7 @@
                             <td>Valid Till</td>
                             <td>Doctor</td>
                             <td>Comment</td>
+                            <td>Detailed Info</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -36,6 +37,7 @@
                                     }
                                 }
                                 <td>@pr.Comments</td>
+                                <td><a asp-controller="Visit" asp-action="PrescriptionInfo"asp-route-id="@pr.Id">Detailes</a></td>
                             </tr>
                         }
                     </tbody>

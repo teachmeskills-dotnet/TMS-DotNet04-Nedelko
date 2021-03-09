@@ -19,7 +19,6 @@
         <label>@Model.ValidTill.ToShortDateString()</label><br />
         <label asp-for="Comments"></label><br />
         <textarea cols="50" rows="5" wrap="soft" disabled="disabled">@Model.Comments</textarea><br />
-        <button asp-controller="Visit" asp-action="Info" asp-route-id="@Model.VisitId">Return</button>
     </div>
     }
     else

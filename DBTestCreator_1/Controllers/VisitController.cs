@@ -44,7 +44,7 @@ namespace DBTestCreator_1.Controllers
                 {
                     Start = model.Start,
                     End = model.Start.AddMinutes(30),
-                    Text = $"Reservation to Doctor " + (await _myContext.Doctors.FindAsync(model.DoctorId)).LName,
+                    Text = $"Reservation to Doctor " +  (await _myContext.Doctors.FindAsync(model.DoctorId)).FName + " " + (await _myContext.Doctors.FindAsync(model.DoctorId)).LName,
                     PatientId = model.PatientId,
                     DoctorId = model.DoctorId,
                 };

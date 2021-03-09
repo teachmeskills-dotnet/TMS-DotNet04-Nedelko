@@ -8,9 +8,8 @@ namespace DBTestCreator_1.Controllers
 {
     public class CalendarController : Controller
     {
-        public IActionResult Show(Guid id)
+        public IActionResult Show()
         {
-            ViewBag.Doctor = id.ToString();
             return View("~/Views/Event/Index.cshtml");
         }
     }

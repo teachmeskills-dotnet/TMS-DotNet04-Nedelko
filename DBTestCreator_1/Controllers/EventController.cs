@@ -70,8 +70,13 @@ namespace DBTestCreator_1.Controllers
             {
                 return BadRequest();
             }
-
-            _myContext.Entry(calendarEvent).State = EntityState.Modified;
+            else
+            {
+                var movedEvent = await _myContext.Events.FindAsync(id);
+                movedEvent.Start = calendarEvent.Start;
+                movedEvent.End = calendarEvent.End;
+                _myContext.Entry(movedEvent).State = EntityState.Modified;
+            }
 
             try
             {
@@ -97,7 +102,14 @@ namespace DBTestCreator_1.Controllers
         [HttpPost]
         public async Task<ActionResult<CalendarEvent>> PostCalendarEvent(CalendarEvent calendarEvent)
         {
-            calendarEvent.PatientId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (User.IsInRole("Patient"))
+            {
+                calendarEvent.PatientId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            }
+            else if (User.IsInRole("Doctor"))
+            {
+                calendarEvent.DoctorId = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            }
             _myContext.Events.Add(calendarEvent);
             await _myContext.SaveChangesAsync();
 
