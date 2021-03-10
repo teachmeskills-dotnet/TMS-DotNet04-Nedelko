@@ -69,8 +69,17 @@ namespace DBTestCreator_1.Controllers
                 Description = visit.Description,
             })
                 .AsNoTracking().ToList();
-            ViewBag.Patients = await _myContext.Patients.AsNoTracking().ToListAsync();
-            return View(myVisits);
+            if(myVisits.Count() != 0)
+            {
+                ViewBag.Patients = await _myContext.Patients.AsNoTracking().ToListAsync();
+                return View(myVisits);
+            }
+            else
+            {
+                ViewBag.Message = "NO Visits created yet.";
+                return View(myVisits);
+            }
+            
         }
         [HttpGet]
         public IActionResult Show()

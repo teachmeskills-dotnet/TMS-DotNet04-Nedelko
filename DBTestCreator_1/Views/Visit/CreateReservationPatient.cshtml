@@ -14,7 +14,7 @@
         <span asp-validation-for="Start"></span>
     </div><br />
     <div>
-        <input asp-for="PatientId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" hidden="hidden" />
+        <input asp-for="PatientId" value="@ViewBag.Patient.Id" hidden="hidden" />
     </div>
     <div>
         <input asp-for="DoctorId" value="@ViewBag.Doctor.Id" hidden="hidden" />

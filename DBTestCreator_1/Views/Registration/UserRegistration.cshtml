@@ -6,16 +6,17 @@
 @model DBTestCreator_1.ViewModels.UserModel
 
 <h4>User registration :</h4>
+@ViewBag.Message
 <form asp-controller="Registration" asp-action="UserRegistration">
 <div asp-validation-summary="ModelOnly"></div>
     <div>
         <label asp-for="Name"></label><br />
-        <input asp-for=Name />
+        <input asp-for=Name required/>
         <span asp-validation-for="Name"></span>
     </div><br />
     <div>
         <label asp-for="Email"></label><br />
-        <input asp-for="Email" />
+        <input asp-for="Email" required/>
         <span asp-validation-for="Email"></span>
     </div><br />
     <div>
@@ -27,12 +28,12 @@
     </div>
     <div>
         <label asp-for="Password"></label><br />
-        <input asp-for="Password" />
+        <input asp-for="Password" required/>
         <span asp-validation-for="Password"></span>
     </div><br />
     <div>
         <label asp-for="ConfirmPassword"></label><br />
-        <input asp-for="ConfirmPassword" />
+        <input asp-for="ConfirmPassword" required/>
         <span asp-validation-for="ConfirmPassword"></span>
     </div><br />
     <input type="submit" value="Register" />

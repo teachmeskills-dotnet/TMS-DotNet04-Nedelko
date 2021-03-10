@@ -6,7 +6,19 @@
 }
 
 <div class="text-center">
-    <h3 class="display-4">Polyclinic Registration</h3>
+    @if (User.IsInRole("Doctor"))
+    {
+        <h3 class="display-4">Doctor Menu</h3>
+    }
+    else if (User.IsInRole("Patient"))
+    {
+        <h3 class="display-4">Patient Menu</h3>
+    }
+    else
+    {
+        <h3 class="display-4">Polyclinic Registration</h3>
+    }
+    
     <div>
         @{
             if(User.IsInRole("Administrator")){
@@ -20,6 +32,7 @@
                 <a asp-controller="Doctor" asp-action="ShowMyPatients">My Patients </a>
                 <a asp-controller="Patient" asp-action="Show">All Patients </a>
                 <a asp-controller="Visit" asp-action="CreateVisitDoctor"> New Visit</a>
+                <a asp-controller="Calendar" asp-action="Show"> My Calendar</a>
             }
             else if (User.IsInRole("Patient"))
             {

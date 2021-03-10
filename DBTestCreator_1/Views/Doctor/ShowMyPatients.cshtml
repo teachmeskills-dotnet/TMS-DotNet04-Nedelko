@@ -7,38 +7,46 @@
 
 <h6>My Patients</h6>
 <form asp-controller="Doctor" asp-action="ShowMyPatients">
-    <table border="1">
-        <thead>
-            <tr>
-                <td>Full Name</td>
-                <td>Age</td>
-                <td>Status</td>
-                <td>Date of Birth</td>
-                <td>Area</td>
-                <td>Detailes</td>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                @foreach(var pat in Model)
-                {
-                    <tr>
-                        <td>@pat.FName @pat.LName</td>
-                        <td>@pat.Age</td>
-                        <td>@pat.EnumStatus</td>
-                        <td>@pat.BDate.ToShortDateString()</td>
-                        @foreach(var area in ViewBag.Areas)
-                        {
-                            if(pat.AreaId == area.Id)
+    @if (Model is not null)
+    {
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Full Name</td>
+                    <td>Age</td>
+                    <td>Status</td>
+                    <td>Date of Birth</td>
+                    <td>Area</td>
+                    <td>Detailes</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    @foreach (var pat in Model)
+                    {
+                        <tr>
+                            <td>@pat.FName @pat.LName</td>
+                            <td>@pat.Age</td>
+                            <td>@pat.EnumStatus</td>
+                            <td>@pat.BDate.ToShortDateString()</td>
+                            @foreach (var area in ViewBag.Areas)
                             {
-                                <td>@area.Name --> @area.RoomNumber</td>
-                                break;
+                                if (pat.AreaId == area.Id)
+                                {
+                                    <td>@area.Name --> @area.RoomNumber</td>
+                                    break;
+                                }
                             }
-                        }
-                        <td><a asp-controller="Patient" asp-action="Detailes" asp-route-id="@pat.Id">Info...</a></td>
-                    </tr>
+                            <td><a asp-controller="Patient" asp-action="Detailes" asp-route-id="@pat.Id">Info...</a></td>
+                        </tr>
+                    }
                 }
-                        }
         </tbody>
     </table>
+    }
+    else
+    {
+        @ViewBag.IsEmpty
+    }
 </form>

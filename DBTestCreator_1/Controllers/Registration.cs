@@ -234,6 +234,7 @@ namespace DBTestCreator_1.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
+            ViewBag.Message = "User with the same Name OR Email is also registered.";
             return View("UserRegistration");
         }
     }

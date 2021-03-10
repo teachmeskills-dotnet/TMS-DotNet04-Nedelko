@@ -44,7 +44,8 @@ namespace DBTestCreator_1.Controllers
                 {
                     Start = model.Start,
                     End = model.Start.AddMinutes(30),
-                    Text = $"Reservation to Doctor " +  (await _myContext.Doctors.FindAsync(model.DoctorId)).FName + " " + (await _myContext.Doctors.FindAsync(model.DoctorId)).LName,
+                    Text = $"Reservation to Doctor : " +  (await _myContext.Doctors.FindAsync(model.DoctorId)).FName + " " + (await _myContext.Doctors.FindAsync(model.DoctorId)).LName
+                    + "Patient : " + (await _myContext.Patients.FindAsync(model.PatientId)).FName + " " + (await _myContext.Patients.FindAsync(model.PatientId)).LName,
                     PatientId = model.PatientId,
                     DoctorId = model.DoctorId,
                 };
@@ -54,16 +55,33 @@ namespace DBTestCreator_1.Controllers
             }
             return View();
         }
-        public async Task<IActionResult> CreateReservationPatientForm(Guid docItem)
+        public async Task<IActionResult> CreateReservationPatientForm(Guid id)
         {
-            var doctor = await _myContext.Doctors.FindAsync(docItem);
-            var model = new RegDoctorModel
+            if (User.IsInRole("Patient"))
             {
-                Id = doctor.Id,
-                FName = doctor.FName,
-                LName = doctor.LName,
-            };
-            ViewBag.Doctor = model;
+                var doctor = await _myContext.Doctors.FindAsync(id);
+                var doctorModel = new RegDoctorModel
+                {
+                    Id = doctor.Id,
+                    FName = doctor.FName,
+                    LName = doctor.LName,
+                };
+                ViewBag.Doctor = doctorModel;
+                ViewBag.Patient = await _myContext.Patients.FindAsync(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+            else
+            {
+                var patient = await _myContext.Patients.FindAsync(id);
+                var patientModel = new PatientModel
+                {
+                    Id = patient.Id,
+                    FName = patient.FName,
+                    LName = patient.LName,
+                };
+                ViewBag.Patient = patientModel;
+                ViewBag.Doctor = await _myContext.Doctors.FindAsync(Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+            }
+
             return View("~/Views/Visit/CreateReservationPatient.cshtml");
         }
 

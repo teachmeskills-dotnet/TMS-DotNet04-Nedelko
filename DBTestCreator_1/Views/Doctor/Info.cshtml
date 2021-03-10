@@ -39,7 +39,7 @@
             
             @if (User.IsInRole("Patient"))
             {
-                <button asp-controller="Visit" asp-action="CreateReservationPatientForm" asp-route-docItem="@Model.Id">Visit reservation</button>
+                <button asp-controller="Visit" asp-action="CreateReservationPatientForm" asp-route-id="@Model.Id">Visit reservation</button>
             }
 
         }
