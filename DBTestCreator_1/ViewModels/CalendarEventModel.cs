@@ -10,6 +10,8 @@ namespace DBTestCreator_1.ViewModels
     {
         [Required]
         [Display(Name = "Date and Time")]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Text { get; set; }

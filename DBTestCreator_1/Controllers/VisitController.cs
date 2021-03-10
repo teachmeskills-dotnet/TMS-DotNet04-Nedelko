@@ -40,6 +40,16 @@ namespace DBTestCreator_1.Controllers
         {
             if (ModelState.IsValid)
             {
+                var events = _myContext.Events.AsNoTracking()
+                    .Where(e => e.DoctorId == model.DoctorId).ToList();
+                model.End = model.Start.AddMinutes(30);
+                foreach(var e in events)
+                {
+                    if(!(model.End <= e.Start || model.Start >= e.End))
+                    {
+                        return Content("This time is unavailable. Choose another time.");
+                    }
+                }
                 CalendarEvent reservation = new CalendarEvent
                 {
                     Start = model.Start,
