@@ -1,4 +1,5 @@
-﻿using DBTestCreator_1.Models;
+﻿using DBTestCreator_1.Managers;
+using DBTestCreator_1.Models;
 using DBTestCreator_1.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -61,7 +62,12 @@ namespace DBTestCreator_1.Controllers
                 };
                 await _myContext.Events.AddAsync(reservation);
                 await _myContext.SaveChangesAsync();
-                return RedirectToAction("Index", "Home");
+                SMSManager smsManager = new SMSManager();
+                var SMSStatus = await smsManager.SendSMSAsync(reservation.Text);
+                ViewBag.Patient = await _myContext.Patients.FindAsync(model.PatientId);
+                ViewBag.Doctor = await _myContext.Doctors.FindAsync(model.DoctorId);
+                ViewBag.SMS = SMSStatus;
+                return View("ReservationInfo", model);
             }
             return View();
         }

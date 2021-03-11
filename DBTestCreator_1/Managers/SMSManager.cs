@@ -1,39 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
+﻿using Flurl;
+using Flurl.Http;
 using System.Threading.Tasks;
 
 namespace DBTestCreator_1.Managers
 {
     public class SMSManager
     {
-
-        public async Task SendSMSAsync()
+        private string url = "https://gateway.sms77.io/api/";
+        public async Task<string> SendSMSAsync(string message)
         {
-            var client = new HttpClient();
-            var request = new HttpRequestMessage
-            {
-                Method = HttpMethod.Post,
-                RequestUri = new Uri("https://sms77io.p.rapidapi.com/sms"),
-                Headers =
+            return await url.AppendPathSegment("sms")
+                .SetQueryParams(new
                 {
-                    { "x-rapidapi-key", "05d3f3f247mshaba4980bf68e1fcp1783dejsn0477b0aff069" },
-                    { "x-rapidapi-host", "sms77io.p.rapidapi.com" },
-                },
-                    Content = new FormUrlEncodedContent(new Dictionary<string, string>
-                {
-                    { "to", "+375291016666" },
-                    { "p", "<REQUIRED>" },
-                    { "text", "Dear customer. We want to say thanks for your trust. Use code MINUS10 for 10 % discount on your next order!" },
-                }),
-            };
-            using (var response = await client.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var body = await response.Content.ReadAsStringAsync();
-                //Console.WriteLine(body);
-            }
+                    p = "bUlBH1Mnfw3j9FTmeu8dzsPK54QrId7oreW7hkTr87OI6ry6JlYvGeVTJ8r7jOwM",
+                    to = 375291016666,
+                    text = message,
+                    from = "sms77.io",
+                }).GetStringAsync();
         }
     }
 

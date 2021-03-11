@@ -6,11 +6,11 @@
 @model IEnumerable<PatientModel>
 
 <h6>My Patients</h6>
-<form asp-controller="Patient" asp-action="Find">
+<form asp-controller="Patient" asp-action="FindPatientModel">
     <fieldset>
         <legend>Choose patient</legend>
         <label>Find : </label>
-        <input name="patientToFind" type="text" />
+        <input name="patientToFind" type="text" placeholder="Enter Last Name..." required/>
         <input type="submit" value="Find" />
     </fieldset><br />
 
@@ -49,9 +49,9 @@
                             break;
                         }
                     }
-                    <td><a asp-controller="Patient" asp-action="Detailes" asp-route-id="@pat.Id">Info...</a></td>
-                    <td><a asp-controller="Patient" asp-action="Find" asp-route-patientToFind="@pat.LName"> New Visit</a></td>
-                    <td><a asp-controller="Visit" asp-action="CreateReservationPatientForm" asp-route-id="@pat.Id"> New reservation</a></td>
+                    <td><a asp-controller="Patient" asp-action="Detailes" asp-route-id="@pat.Id" target="_blank">Info...</a></td>
+                    <td><a asp-controller="Patient" asp-action="Find" asp-route-patientToFind="@pat.LName" target="_blank"> New Visit</a></td>
+                    <td><a asp-controller="Visit" asp-action="CreateReservationPatientForm" asp-route-id="@pat.Id" target="_blank"> New reservation</a></td>
                 </tr>
                     }
                 }

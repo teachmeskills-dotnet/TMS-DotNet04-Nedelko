@@ -62,6 +62,32 @@ namespace DBTestCreator_1.Controllers
             return View("/Views/Visit/CreateVisitDoctor.cshtml");
         }
 
+        public async Task<IActionResult> FindPatientModel(string patientToFind)
+        {
+            var pat = _myContext.Patients.ToList();
+            List<PatientModel> patients = new List<PatientModel>();
+            foreach (var p in pat)
+            {
+                if (p.LName == patientToFind)
+                {
+                    PatientModel model = new PatientModel
+                    {
+                        Id = p.Id,
+                        FName = p.FName,
+                        LName = p.LName,
+                        Age = p.Age,
+                        BDate = p.BDate,
+                        EnumStatus = p.Status,
+                        AreaId = p.AreaId,
+                    };
+                    patients.Add(model);
+                }
+            }
+            ViewBag.PatFind = patients;
+            ViewBag.Areas = await _myContext.Areas.AsNoTracking().ToListAsync();
+            return View("~/Views/Doctor/ShowMyPatients.cshtml", patients);
+        }
+
         public async Task<IActionResult> ShowMyVisits(Guid id)
         {
             var result = await _myContext.Visits.AsNoTracking()
