@@ -66,7 +66,7 @@ namespace DBTestCreator_1.Controllers
                 var SMSStatus = await smsManager.SendSMSAsync(reservation.Text);
                 ViewBag.Patient = await _myContext.Patients.FindAsync(model.PatientId);
                 ViewBag.Doctor = await _myContext.Doctors.FindAsync(model.DoctorId);
-                ViewBag.SMS = SMSStatus.Message;
+                ViewBag.SMS = SMSStatus;
                 return View("ReservationInfo", model);
             }
             return View();
