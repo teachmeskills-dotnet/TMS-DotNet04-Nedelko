@@ -10,8 +10,7 @@ namespace DBTestCreator_1.Managers
 {
     public class SMSManager
     {
-        private string url = "https://api.releans.com/v2/";
-        public async Task<string> SendSMSAsync(string message)
+        public async Task<ResponseSMS> SendSMSAsync(string message)
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage
@@ -31,8 +30,9 @@ namespace DBTestCreator_1.Managers
             };
             using (var response = await client.SendAsync(request))
             {
-                var body = await response.Content.ReadAsStringAsync();
-                return body;
+                var body = response.Content.ReadAsStringAsync().Result;
+                ResponseSMS responce = Newtonsoft.Json.JsonConvert.DeserializeObject<ResponseSMS>(body);
+                return responce;
             }
         }
     }
