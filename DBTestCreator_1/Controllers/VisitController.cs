@@ -37,7 +37,7 @@ namespace DBTestCreator_1.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> CreateReservationPatient(CalendarEventModel model)
+        public async Task<IActionResult> CreateReservationPatient(CalendarEventModel model, string phoneNumber)
         {
             if (ModelState.IsValid)
             {
@@ -62,11 +62,14 @@ namespace DBTestCreator_1.Controllers
                 };
                 await _myContext.Events.AddAsync(reservation);
                 await _myContext.SaveChangesAsync();
-                SMSManager smsManager = new SMSManager();
-                var SMSStatus = await smsManager.SendSMSAsync(reservation.Text);
-                ViewBag.Patient = await _myContext.Patients.FindAsync(model.PatientId);
-                ViewBag.Doctor = await _myContext.Doctors.FindAsync(model.DoctorId);
-                ViewBag.SMS = SMSStatus;
+                if(phoneNumber is not null)
+                {
+                    SMSManager smsManager = new();
+                    var SMSStatus = await smsManager.SendSMSAsync(reservation.Text, phoneNumber);
+                    ViewBag.Patient = await _myContext.Patients.FindAsync(model.PatientId);
+                    ViewBag.Doctor = await _myContext.Doctors.FindAsync(model.DoctorId);
+                    ViewBag.SMS = SMSStatus;
+                }
                 return View("ReservationInfo", model);
             }
             return View();

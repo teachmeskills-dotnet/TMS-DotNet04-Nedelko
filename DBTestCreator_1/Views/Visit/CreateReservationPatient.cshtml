@@ -5,7 +5,7 @@
 @using System.Security.Claims
 
 
-<form asp-controller="Visit" asp-action="CreateReservationPatient">
+<form asp-controller="Visit" asp-action="CreateReservationPatient" name="reservation">
     <div asp-validation-summary="ModelOnly"></div>
     <h6>Create Visit to Doctor : @ViewBag.Doctor.FName @ViewBag.Doctor.LName </h6>
     <h6>@ViewBag.Message</h6>
@@ -14,11 +14,48 @@
         <input asp-for="Start" required />
         <span asp-validation-for="Start"></span>
     </div><br />
+    <div id="notificator">
+        <label>Send SMS-Notification : </label>
+        <label>
+            <input type="radio" name="SMS" id="SMSyes" value="yes" onclick="javascript: showPhone()" />
+            YES
+        </label>
+        <label>
+            <input type="radio" id="SMSno" name="SMS" value="no" checked="checked" onclick="javascript: hidePhone()" />
+            NO
+        </label><br />
+    </div>
+    <div id="divPhone"></div>
+
+
     <div>
         <input asp-for="PatientId" value="@ViewBag.Patient.Id" hidden="hidden" />
     </div>
     <div>
         <input asp-for="DoctorId" value="@ViewBag.Doctor.Id" hidden="hidden" />
     </div>
-    <input type="submit" value="Create"/>
+    <input type="submit" value="Create" />
+
+    <script type="text/javascript">
+        function showPhone() {
+            if (!(!!document.getElementById('phoneNumber'))) {
+                //let divPhone = document.createElement('div');
+                divPhone.className = "container";
+                divPhone.insertAdjacentHTML('afterbegin', '<label id="phoneLabel">Phone Num. : +375-29-</ label><input type="tel" id="phoneNumber" name="phoneNumber" required /></br>');
+                document.forms['reservation'].append(divPhone);
+                //document.body.append(divPhone);
+            }
+        }
+
+        function hidePhone() {
+            if (!!document.getElementById('phoneNumber')) {
+                var phoneNum = document.getElementById('phoneNumber');
+                phoneNum.remove();
+                var phoneLab = document.getElementById('phoneLabel');
+                phoneLab.remove();
+            }
+        }
+    </script>
+
+
 </form>

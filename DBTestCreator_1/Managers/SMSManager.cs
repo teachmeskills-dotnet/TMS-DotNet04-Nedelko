@@ -10,9 +10,10 @@ namespace DBTestCreator_1.Managers
 {
     public class SMSManager
     {
-        public async Task<ResponseSMS> SendSMSAsync(string message)
+        public async Task<ResponseSMS> SendSMSAsync(string message, string phone)
         {
             var client = new HttpClient();
+            var fullPhoneNumber = string.Concat("+37529", phone);
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Post,
@@ -24,7 +25,7 @@ namespace DBTestCreator_1.Managers
                 Content = new FormUrlEncodedContent(new Dictionary<string, string>
                 {
                     { "sender", "Vicent" },
-                    { "mobile", "+375291016666" },
+                    { "mobile", fullPhoneNumber },
                     { "content", message },
                 }),
             };
