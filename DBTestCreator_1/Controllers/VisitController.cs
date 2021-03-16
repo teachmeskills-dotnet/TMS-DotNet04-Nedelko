@@ -48,7 +48,7 @@ namespace DBTestCreator_1.Controllers
                 {
                     if(!(model.End <= e.Start || model.Start >= e.End))
                     {
-                        return Content("This time is unavailable. Choose another time.");
+                        return Content("<script language='javascript' type='text/javascript'>alert('This time is unavailable. Choose another time.';</script>");
                     }
                 }
                 CalendarEvent reservation = new CalendarEvent
@@ -115,7 +115,7 @@ namespace DBTestCreator_1.Controllers
         {
             if (ModelState.IsValid)
             {
-                Visit visit = new Visit
+                Visit visit = new()
                 {
                     Id = new Guid(),
                     Description = model.Description,
