@@ -1,0 +1,18 @@
+﻿@model LoginViewModel
+
+<h4>Login form :</h4>
+<form asp-controller="Registration" asp-action="Login">
+    <h5>@ViewData["Error"]</h5>
+    <div asp-validation-summary="All"></div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div><br />
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div><br />
+    <input type="submit" value="LogIn" />
+</form>

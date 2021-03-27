@@ -1,0 +1,67 @@
+﻿@using System.Security.Claims
+@using System.Linq
+
+@model VisitViewModel
+
+<h6>Create New Visit :</h6>
+<form name="getPatient" asp-controller="Patient" asp-action="Find">
+    <div>
+        <fieldset>
+            <legend asp-for="PatientId">Choose Patient</legend>
+            <input placeholder="Enter Last Name..." type="text" name="patientToFind" />
+            <input type="submit" value="Find" /><br />
+        </fieldset>
+    </div>
+</form>
+
+<form asp-controller="Visit" asp-action="CreateVisitDoctor" name="visitDescription">
+    @{if (ViewBag.PatFind != null)
+        {
+            @if (ViewBag.PatFind.Count != 0)
+            {
+                foreach (var pat in ViewBag.PatFind)
+                {
+                    <p>- @pat.FName @pat.LName --> AREA: @pat.AreaId  <input type="radio" name="patienSelect" value="@pat.Id" /> </p>
+                }
+            }
+            else
+            {
+                <p><b>No Patients found.</b></p>
+            }
+        }
+        else
+        {
+            <p>Choose Patient First!</p>
+        }
+    }
+    <div>
+        <label asp-for="Date"></label><br />
+        <input asp-for="Date" placeholder="@DateTime.Now.ToShortDateString()" />
+        <span asp-validation-for="Date"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label><br />
+        <textarea asp-for="Description" cols="50" rows="5" placeholder="Enter description..." wrap="soft" required></textarea>
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <label asp-for="Diagnosis"></label><br />
+        <textarea asp-for="Diagnosis" rows="5" cols="50" placeholder="Enter diagnosis..." wrap="soft" required></textarea>
+        <span asp-validation-for="Diagnosis"></span>
+    </div>
+    <div>
+        <input hidden="hidden" asp-for="DoctorId" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)" />
+    </div>
+
+    <label>Add Prescription : </label>
+    <label>
+        <input name="addPrescription" type="radio" value="yes" />
+        YES
+    </label>
+    <label>
+        <input name="addPrescription" type="radio" value="no" checked="checked" />
+        NO
+    </label><br />
+
+    <input type="submit" value="Create" />
+</form>
