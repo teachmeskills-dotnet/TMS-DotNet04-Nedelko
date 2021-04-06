@@ -1,0 +1,15 @@
+﻿@model EventViewModel
+
+<h6>Reservation Info</h6>
+<form>
+    <div>
+        <label>Patient : @ViewBag.Patient.FName @ViewBag.Patient.LName</label><br />
+        <label>Doctor : @ViewBag.Doctor.FName @ViewBag.Doctor.LName</label><br />
+        <label>Date of Reservation : @Model.Start.ToString()</label><br />
+        @if (ViewBag.SMS is not null)
+        {
+            <label>Notification Status : @ViewBag.SMS.Message</label>
+        }
+    </div>
+    <button type="submit" asp-controller="Home" asp-action="Index">OK</button>
+</form>

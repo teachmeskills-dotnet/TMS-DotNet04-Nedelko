@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Prescription>
+
+<form asp-controller="Patient" asp-action="ShowMyPrescriptions">
+    <div asp-validation-summary="All"></div>
+    <h6>Prescriptions for Patient : @ViewBag.Patient</h6>
+    <div>
+        @{
+            if (Model is not null)
+            {
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <td>Cure</td>
+                            <td>Date of Prescription</td>
+                            <td>Valid Till</td>
+                            <td>Doctor</td>
+                            <td>Comment</td>
+                            <td>Detailed Info</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var pr in Model)
+                        {
+                            <tr>
+                                <td>@pr.Cure</td>
+                                <td>@pr.DateOfPrescription.ToShortDateString()</td>
+                                <td>@pr.ValidTill.ToShortDateString()</td>
+                                @foreach (var doc in ViewBag.Doctors)
+                                {
+                                    if (doc.Id == pr.DoctorId)
+                                    {
+                                        <td>@doc.FName @doc.LName</td>
+                                        break;
+                                    }
+                                }
+                                <td>@pr.Comment</td>
+                                <td><a asp-controller="Visit" asp-action="PrescriptionInfo" asp-route-id="@pr.Id">Detailes</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                @ViewBag.Message
+            }
+        }
+    </div><br />
+    <button asp-controller="Home" asp-action="Index">Return</button>
+</form>

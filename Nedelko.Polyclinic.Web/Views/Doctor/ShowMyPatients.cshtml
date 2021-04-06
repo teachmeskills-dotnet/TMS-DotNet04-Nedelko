@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PatientViewModel>
+
+<h6>My Patients</h6>
+<form asp-controller="Patient" asp-action="FindPatientModel">
+    <fieldset>
+        <legend>Choose patient</legend>
+        <label>Find : </label>
+        <input name="patientToFind" type="text" placeholder="Enter Last Name..." required />
+        <input type="submit" value="Find" />
+    </fieldset><br />
+</form>
+<form asp-controller="Doctor" asp-action="ShowMyPatients">
+    @if (Model is not null)
+    {
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <td>Full Name</td>
+                    <td>Age</td>
+                    <td>Status</td>
+                    <td>Date of Birth</td>
+                    <td>Area</td>
+                    <td>Detailes</td>
+                    <td>New Visit</td>
+                    <td>New Reservation</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    @foreach (var pat in Model)
+                    {
+                        <tr>
+                            <td>@pat.FName @pat.LName</td>
+                            <td>@pat.Age</td>
+                            <td>@pat.EnumStatus</td>
+                            <td>@pat.BDate.ToShortDateString()</td>
+                            @foreach (var area in ViewBag.Areas)
+                            {
+                                if (pat.AreaId == area.Id)
+                                {
+                                    <td>@area.Name --> @area.RoomNumber</td>
+                                    break;
+                                }
+                            }
+                            <td><a asp-controller="Patient" asp-action="Detailes" asp-route-id="@pat.Id" target="_blank">Info...</a></td>
+                            <td><a asp-controller="Patient" asp-action="Find" asp-route-patientToFind="@pat.LName" target="_blank"> New Visit</a></td>
+                            <td><a asp-controller="Visit" asp-action="CreateReservationPatientForm" asp-route-id="@pat.Id" target="_blank"> New reservation</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        @ViewBag.IsEmpty
+    }
+</form>

@@ -1,0 +1,32 @@
+﻿@model PrescriptionViewModel
+
+<h6>Add Prescription to Visit</h6>
+<form asp-controller="Visit" asp-action="AddPrescription">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <label asp-for="Cure"></label><br />
+        <input asp-for="Cure" />
+        <span asp-validation-for="Cure"></span>
+    </div>
+    <div>
+        <label asp-for="DateOfPrescription"></label><br />
+        <input asp-for="DateOfPrescription" type="date" placeholder="@DateTime.Now.ToShortDateString()" />
+        <span asp-validation-for="DateOfPrescription"></span>
+    </div>
+    <div>
+        <label asp-for="ValidTill"></label><br />
+        <input asp-for="ValidTill" type="date" />
+        <span asp-validation-for="ValidTill"></span>
+    </div>
+    <div>
+        <label asp-for="Comment"></label><br />
+        <textarea cols="50" rows="5" wrap="soft" asp-for="Comment"></textarea>
+        <span asp-validation-for="Comment"></span>
+    </div>
+
+    <input asp-for="DoctorId" value="@ViewBag.Visit.DoctorId" hidden="hidden" />
+    <input asp-for="VisitId" value="@ViewBag.Visit.Id" hidden="hidden" />
+    <input asp-for="PatientId" value="@ViewBag.Visit.PatientId" hidden="hidden" />
+
+    <label><button type="submit" value="Save" name="chooseAction">Save</button> OR <button name="chooseAction" value="Add" type="submit">Add New</button></label>
+</form>
